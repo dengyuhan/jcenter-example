@@ -19,9 +19,9 @@ ext {
                     name       : "jcenter-example",
                     groupId    : "com.dyhdyh.example",
                     //项目地址
-                    siteUrl    : "https://github.com/dengyuhan/instagram-login-android",
+                    siteUrl    : "https://github.com/dengyuhan/jcenter-example",
                     //项目git地址
-                    gitUrl     : "https://github.com/dengyuhan/instagram-login-android.git",
+                    gitUrl     : "https://github.com/dengyuhan/jcenter-example.git",
                     //项目描述
                     description: "上传项目到jcenter的示例",
                     //开发者的一些基本信息
