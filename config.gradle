@@ -1,6 +1,8 @@
 ext {
     android =
             [
+                    applicationId    : "com.dyhdyh.jcenter.example",
+
                     //版本号
                     versionCode      : 1,
                     versionName      : "1.0.0",
