@@ -26,7 +26,8 @@ install {
         pom {
             project {
                 packaging 'aar'
-                name rootProject.ext.jcenter.description
+                name rootProject.ext.jcenter.name
+                description rootProject.ext.jcenter.description
                 url rootProject.ext.jcenter.siteUrl
                 licenses rootProject.ext.jcenter.licenses
                 developers {
