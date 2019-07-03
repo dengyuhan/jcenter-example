@@ -24,7 +24,7 @@ ext {
                     artifactId  : "jcenter",
                     githubName  : "dengyuhan/jcenter-example", //Github上的项目名称
                     githubReadme: "README.md", //Github上的项目文档相对路径 可选
-                    licenses    : ['MIT'] //开源协议 可选
+                    licenses    : ['MIT'] //开源协议
             ]
 
 }
