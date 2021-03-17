@@ -1,22 +1,52 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
+// 定义此变量 会自动使用
+version = rootProject.ext.android.versionName
+group = rootProject.ext.jcenter.groupId
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.version.code
-        versionName rootProject.ext.version.name
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name rootProject.ext.jcenter.description
+                url rootProject.ext.jcenter.siteUrl
+                licenses rootProject.ext.jcenter.licenses
+                developers {
+                    developer {
+                        id rootProject.ext.jcenter.authorId
+                        name rootProject.ext.jcenter.authorName
+                        email rootProject.ext.jcenter.authorEmail
+                    }
+                }
+                scm {
+                    connection rootProject.ext.jcenter.gitUrl
+                    developerConnection rootProject.ext.jcenter.gitUrl
+                    url rootProject.ext.jcenter.siteUrl
+                }
+            }
+        }
+    }
+}
 
 // 生成jar包的task
 task sourcesJar(type: Jar) {
@@ -24,84 +54,22 @@ task sourcesJar(type: Jar) {
     classifier = 'sources'
 }
 
-// 生成javaDoc的jar
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
 artifacts {
-    archives javadocJar
     archives sourcesJar
 }
 
-//设置编码格式，如果不设置可能会在gradlew install的时候出现GBK编码映射错误
-javadoc {
-    options {
-        encoding "UTF-8"
-        charSet 'UTF-8'
-        author true
-        version true
-        links "http://docs.oracle.com/javase/8/docs/api"
-        linksOffline "http://d.android.com/reference","${android.sdkDirectory}/docs/reference"
-        failOnError = false
-    }
-}
-
-Properties localProperties = new Properties()
-localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-group = rootProject.ext.bintray.groupId
-version = rootProject.ext.version.name
-
-install {
-    repositories.mavenInstaller {
-        pom.version = rootProject.ext.version.name
-        pom.groupId = rootProject.ext.bintray.groupId
-        pom.artifactId = rootProject.ext.bintray.artifactId
-    }
-}
-
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
-    def envUser = System.getenv('BINTRAY_USER')
-    def envKey = System.getenv('BINTRAY_KEY')
-    def localUser = localProperties.getProperty("bintray.user")
-    def localKey = localProperties.getProperty("bintray.apikey")
-
-    def githubHost = "https://github.com/"
-    def repoName = "maven"
-    def siteUrl = githubHost + rootProject.ext.bintray.githubName
-    def issueUrl = githubHost + rootProject.ext.bintray.githubName + "/issues"
-    def gitUrl = githubHost + rootProject.ext.bintray.githubName + ".git"
-
-    user = localUser != null && !localUser.isEmpty() ? localUser : envUser
-    key = localKey != null && !localKey.isEmpty() ? localKey : envKey
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
     pkg {
-        repo = repoName
-        name = rootProject.ext.bintray.name
-        userOrg = user
-        desc = rootProject.ext.bintray.desc
-        websiteUrl = siteUrl
-        issueTrackerUrl = issueUrl
-        vcsUrl = gitUrl
-        if (rootProject.ext.bintray.licenses != null && !rootProject.ext.bintray.licenses.isEmpty()) {
-            licenses = rootProject.ext.bintray.licenses
-        }
-        publicDownloadNumbers = true
-        githubRepo = rootProject.ext.bintray.githubName
-        if (rootProject.ext.bintray.githubReadme != null && !rootProject.ext.bintray.githubReadme.isEmpty()) {
-            githubReleaseNotesFile = rootProject.ext.bintray.githubReadme
-        }
+        repo = "maven"
+        name = rootProject.ext.jcenter.name
+        websiteUrl = rootProject.ext.jcenter.siteUrl
+        vcsUrl = rootProject.ext.jcenter.gitUrl
+        licenses = [rootProject.ext.jcenter.licenseName]
         publish = true
-        version {
-            name = rootProject.ext.version.name
-            desc = rootProject.ext.version.desc
-            released = new Date()
-            vcsTag = rootProject.ext.version.name
-        }
     }
 }

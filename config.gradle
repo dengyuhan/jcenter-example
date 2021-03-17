@@ -1,30 +1,43 @@
 ext {
-    android = //项目本地信息
+    android =
             [
-                    applicationId    : "com.dyhdyh.jcenter.example",
+                    //版本号
+                    versionCode      : 6,
+                    versionName      : "1.0.5",
 
                     //sdk版本
-                    compileSdkVersion: 28,
-                    buildToolsVersion: "28.0.3",
-                    minSdkVersion    : 14,
-                    targetSdkVersion : 28,
-                    supportVersion   : "28.0.0",
+                    compileSdkVersion: 30,
+                    buildToolsVersion: "30.0.3",
+                    minSdkVersion    : 19,
+                    targetSdkVersion : 30,
+                    supportVersion   : "30.0.0",
             ]
-    version = //版本信息
+
+    jcenter =
             [
-                    code: 5, //版本号
-                    name: "1.0.4", //版本名称
-                    desc: "这是1.0.4版本描述", //版本描述
+                    //项目名称
+                    name       : "jcenter-example",
+                    groupId    : "in.xiandan",
+                    //项目地址
+                    siteUrl    : "https://github.com/xiandanin/jcenter-example",
+                    //项目git地址
+                    gitUrl     : "https://github.com/xiandanin/jcenter-example.git",
+                    //项目描述
+                    description: "上传到JCenter的示例",
+                    //开发者的一些基本信息
+                    authorId   : "xiandanin",
+                    authorName : "xiandanin",
+                    authorEmail: "denghahae@gmail.com",
+
+                    //开源协议
+                    licenses   : {
+                        license {
+                            name 'MIT'
+                            url 'https://opensource.org/licenses/MIT'
+                        }
+                    },
+                    licenseName: 'MIT'
             ]
-    bintray = //项目上传信息
-            [
-                    name        : "jcenter-example", //项目名称，在bintray网站中的名称
-                    desc        : "上传到JCenter的示例", //项目描述 可选
-                    groupId     : "com.dyhdyh.example",
-                    artifactId  : "jcenter",
-                    githubName  : "dengyuhan/jcenter-example", //Github上的项目名称
-                    githubReadme: "README.md", //Github上的项目文档相对路径 可选
-                    licenses    : ['MIT'] //开源协议
-            ]
+
 
 }
